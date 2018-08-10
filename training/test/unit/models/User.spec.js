@@ -1,4 +1,10 @@
-const { sequelize, dataTypes, checkModelName, checkPropertyExists } = require('sequelize-test-helpers');
+const {
+  sequelize,
+  dataTypes,
+  checkModelName,
+  checkPropertyExists,
+  checkUniqueIndex
+} = require('sequelize-test-helpers');
 const UserModel = require('../../../app/models/user');
 
 describe('src/models/user', () => {
@@ -6,6 +12,11 @@ describe('src/models/user', () => {
   const instance = new Model();
   checkModelName(Model)('User');
   context('properties', () => {
-    ['name', 'email'].forEach(checkPropertyExists(instance));
+    ['id', 'firstName', 'lastName', 'email', 'password', 'createdAt', 'updatedAt'].forEach(
+      checkPropertyExists(instance)
+    );
+  });
+  context('indexes', () => {
+    ['id', 'email'].forEach(checkUniqueIndex(instance));
   });
 });
