@@ -11,14 +11,17 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
       },
       firstName: {
+        required: true,
         allowNull: false,
         type: DataTypes.STRING
       },
       lastName: {
+        required: true,
         allowNull: false,
         type: DataTypes.STRING
       },
       email: {
+        required: true,
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
@@ -29,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
       password: {
+        required: true,
         allowNull: false,
         type: DataTypes.STRING
       },
@@ -39,6 +43,17 @@ module.exports = (sequelize, DataTypes) => {
       updatedAt: {
         allowNull: false,
         type: DataTypes.DATE
+      }
+    },
+    {
+      validate: {
+        isWoloxDomain() {
+          if (
+            this.email.search(/^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(wolox)\.com$/g) !== 0
+          ) {
+            throw new Error('Domain of email is not valid.');
+          }
+        }
       }
     },
     {

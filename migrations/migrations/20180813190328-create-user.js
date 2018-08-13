@@ -12,14 +12,17 @@ module.exports = {
           type: Sequelize.INTEGER
         },
         firstName: {
+          required: true,
           allowNull: false,
           type: Sequelize.STRING
         },
         lastName: {
+          required: true,
           allowNull: false,
           type: Sequelize.STRING
         },
         email: {
+          required: true,
           type: Sequelize.STRING,
           allowNull: false,
           unique: true,
@@ -30,6 +33,7 @@ module.exports = {
           }
         },
         password: {
+          required: true,
           allowNull: false,
           type: Sequelize.STRING
         },
