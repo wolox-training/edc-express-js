@@ -2,7 +2,7 @@ const { map } = require('lodash');
 const Model = require('../models/index');
 
 exports.list = (req, res) => {
-  return res.send('bla bla');
+  return res.status(200).send('bla bla');
 };
 exports.save = (req, res) => {
   Model.sequelize.sync().then(function() {

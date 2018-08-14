@@ -46,6 +46,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
+      indexes: [{ unique: true, fields: ['id'] }, { unique: true, fields: ['email'] }],
       validate: {
         isWoloxDomain() {
           if (
@@ -55,9 +56,6 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       }
-    },
-    {
-      indexes: [{ unique: true, fields: ['id'] }, { unique: true, fields: ['email'] }]
     }
   );
   User.associate = function(models) {
