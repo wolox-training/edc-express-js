@@ -39,7 +39,6 @@
     "url": "https://github.com/Wolox/training/issues"
   },
   "dependencies": {
-    "bcrypt": "^3.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "deep-eql": "^3.0.1",
