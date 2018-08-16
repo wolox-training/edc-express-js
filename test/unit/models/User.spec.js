@@ -7,7 +7,7 @@ const {
 } = require('sequelize-test-helpers');
 const UserModel = require('../../../app/models/user');
 
-describe('src/models/user', () => {
+describe('Model: Users, `src/models/user`', () => {
   const Model = UserModel(sequelize, dataTypes);
   const instance = new Model();
   checkModelName(Model)('User');

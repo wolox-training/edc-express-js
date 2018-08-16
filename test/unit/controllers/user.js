@@ -1,34 +1,16 @@
-// import User from '../../app/models/User';
-
 // Require the dev-dependencies
 const _ = require('lodash');
 const chai = require('chai');
 const expect = require('chai').expect;
 const chaiHttp = require('chai-http');
-const User = require('../app/models');
-const server = require('./../app');
-
-// const models = require('../../unit');
+const User = require('../../../app/models');
+const server = require('../../../app');
 
 const should = chai.should();
 
-// chai.use(chaiHttp);
-
 // Our parent block
-describe('Controller: Users', () => {
+describe('Controller: Users, `src/controller/user`', () => {
   const userTest = {};
-  /* it.only('it should GET all the users', done => {
-    chai
-      .request(server)
-      .get('/users')
-      .end(res => {
-        console.log('... EDUARDO ----> ');
-        // res.should.have.status(200);
-        // res.body.should.be.a('array');
-        // res.body.length.should.be.eql(0);
-        done();
-      });
-  }); */
   beforeEach(() => {
     _.set(userTest, 'firstName', 'firstNameTest');
     _.set(userTest, 'lastName', 'lastNameTest');
@@ -56,6 +38,47 @@ describe('Controller: Users', () => {
         expect(res).to.have.status(422);
         expect(res.body.message).to.include.members(['Domain of email is not valid.']);
         done();
+      });
+  });
+  it('POST: it should don`t create user. Password isn`t length requied.', done => {
+    _.set(userTest, 'password', '');
+    chai
+      .request(server)
+      .post('/users')
+      .send(userTest)
+      .end((err, res) => {
+        expect(res).to.have.status(422);
+        expect(res.body.message).to.include.members(['Password length is not in this range.']);
+        done();
+      });
+  });
+  it('POST: it should don`t create user. Password require alphanumeric value.', done => {
+    _.set(userTest, 'password', 'àsd/qwe"@wolox.com');
+    chai
+      .request(server)
+      .post('/users')
+      .send(userTest)
+      .end((err, res) => {
+        expect(res).to.have.status(422);
+        expect(res.body.message).to.include.members(['Password require alphanumeric value.']);
+        done();
+      });
+  });
+  it('POST: it should don`t create user. Email isn`t unique.', done => {
+    chai
+      .request(server)
+      .post('/users')
+      .send(userTest)
+      .end(() => {
+        chai
+          .request(server)
+          .post('/users')
+          .send(userTest)
+          .end((err, res) => {
+            expect(res).to.have.status(422);
+            expect(res.body.message).to.include.members(['email must be unique']);
+            done();
+          });
       });
   });
   it('POST: it should don`t create user. Attribute email isn`t valid.', done => {
@@ -90,22 +113,4 @@ describe('Controller: Users', () => {
         done();
       });
   });
-  /*
-  * Test the /GET route
-  */
-  /*
-  describe('/GET user', () => {
-    it('it should GET all the users', done => {
-      chai
-        .request(server)
-        .get('/users')
-        .end((err, res) => {
-          res.should.have.status(200);
-          // res.body.should.be.a('array');
-          // res.body.length.should.be.eql(0);
-          done();
-        });
-    });
-  });
-  */
 });

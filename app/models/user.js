@@ -1,5 +1,7 @@
 'use strict';
 
+const bcrypt = require('bcrypt');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
@@ -34,7 +36,17 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         required: true,
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        validate: {
+          is: {
+            args: ['^[a-zA-Z0-9]+$', 'i'],
+            msg: 'Password require alphanumeric value.'
+          },
+          len: {
+            args: [8, 50],
+            msg: 'Password length is not in this range.'
+          }
+        }
       },
       createdAt: {
         allowNull: false,
@@ -58,6 +70,16 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   );
+  User.beforeCreate((user, options) => {
+    return bcrypt
+      .hash(user.password, 10)
+      .then(hash => {
+        user.password = hash;
+      })
+      .catch(err => {
+        throw new Error();
+      });
+  });
   User.associate = function(models) {
     // associations can be defined here
   };
