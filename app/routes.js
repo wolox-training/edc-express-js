@@ -1,10 +1,9 @@
 const controller = require('./controllers/user');
 
 exports.init = app => {
-  /* Method GET */
-  app.get('/users', [], controller.list);
-  /* Method PUT */
-  // app.put('/endpoint/put/path', [], controller.methodPUT);
-  /* Method POST */
-  app.post('/users', [], controller.save);
+  app.get('/users', [], controller.getUsers);
+  app.post('/users', [], controller.postUser);
+  app.get('/user/:id', [], controller.getUser);
+  app.delete('/user/:id', [], controller.deleteUser);
+  app.put('/user/:id', [], controller.updateUser);
 };

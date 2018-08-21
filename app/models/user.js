@@ -67,7 +67,24 @@ module.exports = (sequelize, DataTypes) => {
             throw new Error('Domain of email is not valid.');
           }
         }
-      }
+      } /* ,
+      freezeTableName: true,
+      instanceMethods: {
+        generateHash(password) {
+          return bcrypt.hash(password, bcrypt.genSaltSync(10));
+        },
+        validPassword(password) {
+          return bcrypt.compare(password, this.password);
+        }
+      },
+      classMethods: {
+        generateHash(password) {
+          return bcrypt.hash(password, bcrypt.genSaltSync(10));
+        },
+        validPassword(password) {
+          return bcrypt.compare(password, this.password);
+        }
+      } */
     }
   );
   User.beforeCreate((user, options) => {
@@ -80,6 +97,13 @@ module.exports = (sequelize, DataTypes) => {
         throw new Error();
       });
   });
+  /* // Creating a custom method for our User model. 
+  //This will check if an unhashed password entered by the 
+  //user can be compared to the hashed password stored in our database
+  */
+  User.prototype.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+  };
   User.associate = function(models) {
     // associations can be defined here
   };
