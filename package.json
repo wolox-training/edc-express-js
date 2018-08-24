@@ -76,6 +76,8 @@
     "prettier": "^1.8.2",
     "prettier-eslint": "^8.2.1",
     "prompt": "^1.0.0",
-    "sequelize-cli": "^4.0.0"
+    "sequelize-cli": "^4.0.0",
+    "sequelize-test-helpers": "^1.0.3",
+    "sinon": "^6.1.5"
   }
 }
